@@ -1,0 +1,12 @@
+body {
+    background: #f5d6ff;
+    font-family: "IBM Plex Serif";
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+label {
+    font-family: "Comic Sans";
+}
