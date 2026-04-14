@@ -128,6 +128,73 @@ const getSchedules = (days) => {
     return result
 }
 
+// Source - https://stackoverflow.com/a/1026087
+// Posted by Steve Harrison, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-04-14, License - CC BY-SA 4.0
+
+const capitalizeFirstLetter= (val) => {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+//{str: [str, str] ...} -> str
+//parsea un schedule JSON a str
+const parseSchedule = (schedule) => {
+    const msg = (schedule, day) => capitalizeFirstLetter(day)+" de "+schedule[day][0]+" a "+schedule[day][1]
+    let len = 0
+    let days = []
+    for (const day in schedule) {
+        len++
+        days.push(day)
+    }
+    let finalMsg = ""
+    if (len==1) {
+        let day = days[0]
+        return msg(schedule, day)
+    } else {
+        let separator = ", "
+        for (const day of days) {
+            if (len==2) {
+                separator= " y "
+            } else if (len == 1) {
+                separator= ""
+            }
+            finalMsg+= msg(schedule, day) + separator
+            len--
+        }
+        return finalMsg
+    }
+}
+
+
+/*
+    <p class="actividad">Fútbol (Deportiva), Lunes de 16:00 a 20:00
+        <a href="media/futbol.jpg" target="_blank">imagen</a>, 
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">enlace</a>.
+    </p>
+*/
+
+//str, str, {str: [str, str], ...}, str, str -> void
+const addActivity = (name, type, schedule, file, url) => {
+    let p = document.createElement("p")
+    let aMedia = document.createElement("a")
+    let aLink = document.createElement("a")
+
+    p.className = "actividad"
+    p.innerText = name + " (" + capitalizeFirstLetter(type) + "), "+parseSchedule(schedule)+", "
+    p.appendChild(aMedia)
+    p.appendChild(aLink)
+    aMedia.innerText = "imagen, "
+    aLink.innerText = "enlace."
+    aMedia.href = "media/" + file
+    aMedia.target = "_blank"
+    aLink.href = url
+    aLink.target = "_blank"
+
+
+    let parent = document.getElementById("my-activities")
+    parent.appendChild(p)
+}
+
 //event -> void
 const validateRegister = (event) => {
     let name = document.getElementById("name").value
@@ -145,10 +212,13 @@ const validateRegister = (event) => {
     let validFile = validateFile(file)
     let validURL = validateURL(url)
 
-    if (validDays) {
-        schedules = getSchedules(days)
+    let validForm = validName && validType && validDays && validSchedules && validFile && validURL
+
+    if (validForm) {
+        addActivity(name, type, schedules, file, url)
+    } else {
+        alert("mala")
     }
-    
 
     event.preventDefault()
 }
