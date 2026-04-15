@@ -99,7 +99,7 @@ const validateLogin = (event) => {
     validForm = validNames && validSurnames && validMemberType && validPhone && validEmail && validPassword && password.value==password_confirm.value
 
     if (validForm) {
-        window.location.href = "../activities/"
+        window.location.href = "../activities/index.html"
     }
     event.preventDefault()
 }
