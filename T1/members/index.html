@@ -12,10 +12,19 @@
 <body>
     <h1>Miembros</h1>
 
-    <table id="table" class="member-table">
-        
-    </table>
-
+    <form>
+        <select id="member-type">
+            <option value="">Todos</option>
+            <option value="pre-grado">Pre-grado</option>
+            <option value="post-grado">Post-grado</option>
+            <option value="academico">Académico</option> 
+            <option value="funcionario">Funcionario</option>
+        </select>
+        <button type="button" id="filtrar">filtrar</button>
+    </form>
+    <div id="table-div">
+        <table id="table" class="member-table"></table>
+    </div>
 
     <a href="../login/">
             <button type="button" id="registrar">Registrate!</button>
