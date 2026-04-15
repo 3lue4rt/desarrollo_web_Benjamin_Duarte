@@ -28,6 +28,10 @@ input::file-selector-button {
     display: none;
 }
 
+.warning {
+    display: none;
+}
+
 select {
     border-radius: 20px;
 }

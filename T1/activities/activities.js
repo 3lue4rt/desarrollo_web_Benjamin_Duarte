@@ -215,13 +215,60 @@ const validateRegister = (event) => {
     let validFile = validateFile(file)
     let validURL = validateURL(url)
 
+    if (!validDays) {
+        document.getElementById("warning").style.display = "block"
+        for (const day of week) {
+            document.getElementById(day).style.transform = "scale(1.5)"
+        }
+    } else {
+        document.getElementById("warning").style.display = "none"
+        for (const day of week) {
+            document.getElementById(day).style.transform = "scale(1)"
+        }
+    }
+
+    if(!validName) {
+        document.getElementById("name").style.background = "red"
+    } else {
+        document.getElementById("name").style.background = "white"
+    }
+
+    if(!validFile) {
+        document.getElementById("file").style.background = "red"
+    } else {
+        document.getElementById("file").style.background = "white"
+    }
+
+    if(!validURL) {
+        document.getElementById("url").style.background = "red"
+    } else {
+        document.getElementById("url").style.background = "white"
+    }
+
+    if(!validType) {
+        document.getElementById("activity-type").style.background = "red"
+    } else {
+        document.getElementById("activity-type").style.background = "white"
+    }
+
+    if(!validSchedules) {
+        for (const day of week) {
+            document.getElementById(day+"-horario").style.background = "red"
+        }
+    } else {
+        for (const day of week) {
+            document.getElementById(day+"-horario").style.background = "#f5d6ff"
+        }
+    }
+
+    
+
     let validForm = validName && validType && validDays && validSchedules && validFile && validURL
 
     if (validForm) {
         addActivity(name, type, schedules, file, url)
-    } else {
-        alert("mala")
-    }
+    } 
+
 
     event.preventDefault()
 }

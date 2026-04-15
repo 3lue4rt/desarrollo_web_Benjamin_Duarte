@@ -14,7 +14,7 @@
 
     <h2>Registra tu Actividad</h2>
     <form id="activity-form">
-        <label for="name">Nombre:</label>
+        <label for="name">Nombre: <br>(ingrese al menos 1 letra)</label>
         <br>
         <input id="name" name="name" type="text">
         <br>
@@ -29,7 +29,11 @@
             <option value="recreativa">Recreativa</option>
         </select>
         <br>
-        <label>Día(s):</label>
+        <label>
+            Día(s): 
+            <div class="warning" id="warning">Elija al menos 1 día</div>
+        </label>
+        <div class="warning" id="warning">Elija al menos 1 día</div>
         <br>
         <input type="checkbox" id="lunes" value=" ">Lunes</input>
         <input type="checkbox" id="martes" value=" ">Martes</input>
@@ -108,23 +112,32 @@
         <br>
         <input id="file" name="file" type="file"></input>
         <br>
-        <label for="url">Enlace al contenido:</label>
+        <label for="url">Enlace al contenido: <br> (ingrese al menos 1 letra)</label>
         <br>
         <input id="url" name="url" type="url">
         <br>
         <button type="button" id="registrar">Registrar</button>
-        <h2>Tus Actividades</h2>
-        <div class="my-activities" id="my-activities">
-            <p class="actividad">Fútbol (Deportiva), Lunes de 16:00 a 20:00
-                <a href="media/futbol.jpg" target="_blank">imagen</a>, 
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">enlace</a>.
-            </p>
-            <p class="actividad">Taller de Hacking (Tecnológica), Miercoles de 12:00 a 14:00
-                <a href="media/hacking.jpg" target="_blank">imagen</a>, 
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">enlace</a>.
-            </p>
-        </div>
     </form>
+    <h2>Tus Actividades</h2>
+    <div class="my-activities" id="my-activities">
+        <p class="actividad">Fútbol (Deportiva), Lunes de 16:00 a 20:00
+            <a href="media/futbol.jpg" target="_blank">imagen</a>, 
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">enlace</a>.
+        </p>
+        <p class="actividad">Taller de Hacking (Tecnológica), Miercoles de 12:00 a 14:00
+            <a href="media/hacking.jpg" target="_blank">imagen</a>, 
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">enlace</a>.
+        </p>
+    </div>
+    <a href="../login/">
+            <button type="button" id="registrar">Registrate!</button>
+    </a>
+    <a href="../statistics/">
+            <button type="button" id="estadisticas">Estadísticas!</button>
+    </a>
+    <a href="../members/">
+            <button type="button" id="miembros">Miembros!</button>
+    </a>
     <script lang="javascript" src="activities.js"></script>
 </body>
 </html>

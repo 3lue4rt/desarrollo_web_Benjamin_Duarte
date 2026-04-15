@@ -67,7 +67,7 @@ const validateLogin = (event) => {
     let validPhone = validatePhone(phone.value)
     let validEmail = validateEmail(email.value)
     let validPassword = validatePassword(password.value)
-    console.log(validPhone)
+    let validPassword_confirm = validatePassword(password_confirm.value)
 
     const changeColor = (valid, element) => {
         if (!valid) {
@@ -79,16 +79,24 @@ const validateLogin = (event) => {
         }
     }
 
+    if (password.value!=password_confirm.value) {
+        document.getElementById("warning").style.display = "block"
+        validPassword_confirm = false
+    } else {
+        document.getElementById("warning").style.display = "none"
+    }
+
     changeColor(validNames, names)
     changeColor(validSurnames, surnames)
     changeColor(validMemberType, memberTypes)
     changeColor(validPhone, phone)
     changeColor(validEmail, email)
     changeColor(validPassword, password)
-    changeColor(validPassword, password_confirm)
+    changeColor(validPassword_confirm, password_confirm)
+    
     
 
-    validForm = validNames && validSurnames && validMemberType && validPhone && validEmail && validPassword && password==password_confirm
+    validForm = validNames && validSurnames && validMemberType && validPhone && validEmail && validPassword && password.value==password_confirm.value
 
     if (validForm) {
         window.location.href = "../activities/"
