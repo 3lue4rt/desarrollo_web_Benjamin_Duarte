@@ -24,7 +24,7 @@ const validateMemberType = (type) => {
 //esté entre 00000000 y 99999999
 const validatePhone = (phone) => {
     phone = phone.replaceAll(" ","") //saca los espacios del numero
-    return !isNaN(phone) && 0 <= phone  && phone <= 99999999
+    return !isNaN(phone) && 0 <= parseInt(phone)  && parseInt(phone) <= 99999999 && phone.length==8
 }
 
 //str -> bool
@@ -53,27 +53,45 @@ const validatePassword = (password) => {
 //void->void
 //maneja la validación de inputs formulario de login
 const validateLogin = (event) => {
-    let names = document.getElementById("names").value
-    let surnames = document.getElementById("surnames").value
-    let memberTypes = document.getElementById("member-type").value
-    let phone = document.getElementById("phone").value
-    let email = document.getElementById("email").value
-    let password = document.getElementById("password").value
-    let password_confirm = document.getElementById("password-confirm").value
+    let names = document.getElementById("names")
+    let surnames = document.getElementById("surnames")
+    let memberTypes = document.getElementById("member-type")
+    let phone = document.getElementById("phone")
+    let email = document.getElementById("email")
+    let password = document.getElementById("password")
+    let password_confirm = document.getElementById("password-confirm")
 
-    let validNames = validateName(names)
-    let validSurnames = validateName(surnames)
-    let validMemberType = validateMemberType(memberTypes)
-    let validPhone = validatePhone(phone)
-    let validEmail = validateEmail(email)
-    let validPassword = validatePassword(password)
+    let validNames = validateName(names.value)
+    let validSurnames = validateSurname(surnames.value)
+    let validMemberType = validateMemberType(memberTypes.value)
+    let validPhone = validatePhone(phone.value)
+    let validEmail = validateEmail(email.value)
+    let validPassword = validatePassword(password.value)
+    console.log(validPhone)
+
+    const changeColor = (valid, element) => {
+        if (!valid) {
+            element.style.borderBlockColor = "red"
+            element.style.background = "#fe8e8e"
+        } else {
+            element.style.borderBlockColor = "black"
+            element.style.background = "white"
+        }
+    }
+
+    changeColor(validNames, names)
+    changeColor(validSurnames, surnames)
+    changeColor(validMemberType, memberTypes)
+    changeColor(validPhone, phone)
+    changeColor(validEmail, email)
+    changeColor(validPassword, password)
+    changeColor(validPassword, password_confirm)
+    
 
     validForm = validNames && validSurnames && validMemberType && validPhone && validEmail && validPassword && password==password_confirm
 
     if (validForm) {
         window.location.href = "../activities/"
-    } else {
-        alert("mala")
     }
     event.preventDefault()
 }

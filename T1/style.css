@@ -8,5 +8,36 @@ body {
 }
 
 label {
-    font-family: "Comic Sans";
+    font-family: "Tahoma";
 }
+
+input {
+    border-radius: 20px;
+    border-color: black;
+    background-color: white;
+}
+
+input::file-selector-button {
+  font-weight: bold;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 20px;
+}
+
+.horario {
+    display: none;
+}
+
+select {
+    border-radius: 20px;
+}
+
+button {
+    border-radius: 20px;
+    padding: 15px;
+    margin: 10px;
+    width: 160px;
+    background-color: #ebb9ff;
+    font-size: large;
+}
+

@@ -100,10 +100,13 @@ const validateURL = validateName
 //lógica para modificar el valor del botón
 const handleDayButton = (day) => () => {
     let day_element = document.getElementById(day)
+    let schedule = document.getElementById(day+"-horario")
     if (day_element.value == " ") {
         day_element.value = day
+        schedule.style.display = "block"
     } else {
         day_element.value = " "
+        schedule.style.display = "none"
     }
 }
 
