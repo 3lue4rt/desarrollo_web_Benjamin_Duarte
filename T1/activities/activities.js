@@ -251,6 +251,7 @@ const validateRegister = (event) => {
         document.getElementById("activity-type").style.background = "white"
     }
 
+    console.log(validSchedules)
     if(!validSchedules) {
         for (const day of week) {
             document.getElementById(day+"-horario").style.background = "red"
