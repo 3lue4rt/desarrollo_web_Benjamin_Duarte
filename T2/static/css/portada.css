@@ -1,0 +1,15 @@
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border-radius: 20px;
+    padding: 15px;
+    margin: 10px;
+    width: 160px;
+    background-color: #ebb9ff;
+    font-size: large;
+}

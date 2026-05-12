@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+DCC - Area de calidad de vida
+
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/portada.css') }}"
+/>
+
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1> ¿Que actividades hace el DCC? </h1>
+
+    <button>Registrar  miembro  y  actividades</button>
+    <button>Ver  listado  de  miembros</button>
+    <button>Estadísticas (indicadores y métricas)</button>
+
+    <p>Aqui va una tabla</p>
+</section>
+{% endblock content %}

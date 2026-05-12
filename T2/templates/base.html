@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/navbar.css') }}"
+    />
+    <link rel="stylesheet" href="../static/css/navbar.css">
+  </head>
+  <body>
+    <ul>
+        <li>
+            <a href="https://dcc.uchile.cl">
+              DCC
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('portada')}}">
+              Area de calidad de vida
+            </a>
+        </li>
+        <li>
+          <a href="{{ url_for('login')}}">
+            Registro y Log-in
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('miembros')}}">
+            Nuestros miembros
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('estadisticas')}}">
+            Estadísticas
+          </a>
+        </li>
+    </ul>
+    {% block content %}{% endblock %}
+    {% block javascript %}{% endblock %}
+  </body>
+</html>
