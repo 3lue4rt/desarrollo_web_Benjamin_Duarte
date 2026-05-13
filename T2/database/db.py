@@ -40,6 +40,7 @@ class Usuario(Base):
     email = Column(String(255), nullable=False)
     telefono = Column(Integer, nullable=False)
     fecha_registro = Column(DateTime, nullable=False)
+    comuna_id = Column(BigInteger, ForeignKey('comuna.id'), nullable=False)
     comuna = relationship("Comuna", back_populates="usuario", cascade="all, delete")
     password = Column(String(255), nullable=False)
 
@@ -69,3 +70,4 @@ def create_user(nombres, apellidos, tipo, telefono, email, password):
     session.add(new_user)
     session.commit()
     session.close()
+
