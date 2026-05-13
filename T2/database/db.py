@@ -59,15 +59,31 @@ def get_user_by_email(email):
     return user
 
 
-def create_user(nombres, apellidos, tipo, telefono, email, password):
+def create_user(nombre, tipo, email, telefono, comuna_id, password):
     session = SessionLocal()
-    new_user = Usuario(nombres=nombres, 
-                       apellidos=apellidos, 
-                       tipo=tipo, 
-                       telefono=telefono, 
-                       email=email, 
+    new_user = Usuario(nombre=nombre, 
+                       tipo=tipo,
+                       email=email,
+                       telefono=telefono,
+                       comuna_id=comuna_id,
                        password=password)
     session.add(new_user)
     session.commit()
     session.close()
 
+def register_user(nombre, tipo, email, telefono, comuna_id, password):
+    if get_user_by_email(email) is not None:
+        return False, "El correo ya esta en uso."
+    
+    create_user(nombre, tipo, email, telefono, comuna_id, password)
+    return True, None
+
+def login_user(email, password):
+    a_user = get_user_by_email(email)
+    if a_user is None:
+        return False, "Usuario o contraseña incorrectos."
+    
+    if a_user.password != password:
+        return False, "Usuario o contraseña incorrectos."
+    
+    return True, None

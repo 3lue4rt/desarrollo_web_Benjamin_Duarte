@@ -1,3 +1,3 @@
-# Tarea 1
+# Tarea 2
 
-Deberían empezar en el archivo `T1/login/index.html`. No hay mucha más decisión extravagante de diseño en la estructura del la tarea. El css fue minimalista.
+Empecé la tarea 5 hrs antes del plazo, alcancé a hacer un poco la portada y las db, pero no conecté nada, pido disculpas

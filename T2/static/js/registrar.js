@@ -4,16 +4,12 @@ const validateName = (name) => {
     return name.replaceAll(" ","") != ""
 }
 
-//str -> bool
-//apellido no vacío
-const validateSurname = validateName
-
 //Enum(str) -> bool
 //sea parte del enum
 const validateMemberType = (type) => {
     let types = [
-        "pre-grado", 
-        "post-grado", 
+        "pregrado", 
+        "postgrado", 
         "funcionario",
         "academico"
     ]
@@ -33,6 +29,15 @@ const validateEmail = (email) => {
     email = email.trim().toLowerCase()
     let reg = /^[a-z.]+@[a-z]+\.[a-z]+/g //forma abc@abc.abc
     return reg.test(email)
+}
+
+const validateRegion = (region) => {
+    for (let r of region_comuna["regiones"]) {
+        if (r["nombre"]==region) {
+            return true
+        }
+    }
+    return false
 }
 
 //str->bool
@@ -97,3 +102,35 @@ const validateLogin = (event) => {
 
 let button = document.getElementById("registrar")
 button.addEventListener("click", validateLogin)
+
+let comunas = document.getElementById("comuna")
+
+const deleteComunas = () => {
+    comunas.innerHTML = '<option value="">-- Elija una opción --</option>'
+}
+const fillComunas = (regionToFill) => {
+    deleteComunas()
+    for (let region of region_comuna["regiones"]) {
+        if (region.nombre == regionToFill) {
+            for (let comuna of region.comunas) {
+                let newComuna = document.createElement("option")
+                newComuna.value = comuna.nombre
+                newComuna.innerText = comuna.nombre
+                comunas.appendChild(newComuna)
+            }
+            break
+        }
+    }
+}
+
+let regiones = document.getElementById("region")
+for (let region of region_comuna["regiones"]) {
+    let newRegion = document.createElement("option")
+    newRegion.value = region.nombre
+    newRegion.innerText = region.nombre
+    regiones.appendChild(newRegion)
+}
+
+regiones.addEventListener("input", () => {
+    fillComunas(comunas.value)
+})

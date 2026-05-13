@@ -1,6 +1,4 @@
-from flask import Flask, render_template
-
-app = Flask(__name__)
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -13,12 +11,18 @@ def portada():
 def login():
     return render_template("portada.html")
 
-@app.route("/registrar", methods=["GET"])
+@app.route("/registrar", methods=["GET", "POST"])
 def registrar():
     return render_template("registrar.html")
 
 @app.route("/miembros", methods=["GET"])
 def miembros():
+    if request.method == "POST":
+        nombre = request.form.get("username")
+        
+        password = request.form.get("contrasenna")
+        email = request.form.get("email")
+        error = ""
     return render_template("portada.html")
 
 @app.route("/estadisticas", methods=["GET"])
