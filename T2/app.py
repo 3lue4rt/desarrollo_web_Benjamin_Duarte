@@ -13,6 +13,10 @@ def portada():
 def login():
     return render_template("portada.html")
 
+@app.route("/registrar", methods=["GET"])
+def registrar():
+    return render_template("registrar.html")
+
 @app.route("/miembros", methods=["GET"])
 def miembros():
     return render_template("portada.html")
