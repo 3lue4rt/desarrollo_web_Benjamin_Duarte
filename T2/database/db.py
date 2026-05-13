@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, Enum
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 
 DB_NAME = "tarea2"
@@ -14,15 +14,33 @@ SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
+class Region(Base):
+    __tablename__ = 'region'
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    nombre = Column(String(200), nullable=False)
+
+    comunas = relationship("Comuna", back_populates="region", cascade="all, delete")
+
+class Comuna(Base):
+    __tablename__ = 'comuna'
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    nombre = Column(String(200), nullable=False)
+    region_id = Column(BigInteger, ForeignKey('region.id'), nullable=False)
+
+    region = relationship("Region", back_populates="comuna")
+
 class Usuario(Base):
     __tablename__ = 'usuarios'
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    nombres = Column(String(255), nullable=False)
-    apellidos = Column(String(255), nullable=False)
-    tipo = Column(String(128), nullable=False)
-    telefono = Column(Integer, nullable=False)
+    nombre = Column(String(255), nullable=False)
+    tipo = Column(Enum("pregrado", "posgrado", "funcionario", "academico"), nullable=False)
     email = Column(String(255), nullable=False)
+    telefono = Column(Integer, nullable=False)
+    fecha_registro = Column(DateTime, nullable=False)
+    comuna = relationship("Comuna", back_populates="usuario", cascade="all, delete")
     password = Column(String(255), nullable=False)
 
 # --- Database Functions ---

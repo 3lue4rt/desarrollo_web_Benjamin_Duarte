@@ -51,6 +51,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `tarea2`.`miembro` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NOT NULL,
+  `tipo` ENUM('pregrado', 'posgrado', 'funcionario', 'academico') NOT NULL,
   `email` VARCHAR(80) NOT NULL,
   `telefono` VARCHAR(15) NOT NULL,
   `fecha_registro` DATETIME NOT NULL,
