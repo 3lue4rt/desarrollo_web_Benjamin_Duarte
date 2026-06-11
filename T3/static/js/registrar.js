@@ -70,6 +70,7 @@ const validatePassword = (password) => {
 //void->void
 //maneja la validación de inputs formulario de registrar
 const validateRegistrer = (event) => {
+    event.preventDefault()
     let names = document.getElementById("names")
     let memberTypes = document.getElementById("member-type")
     let email = document.getElementById("email")
@@ -109,10 +110,9 @@ const validateRegistrer = (event) => {
     if (msg!="") {
         alert(msg)
     } else {
-        alert("¡Cuenta creada!")
         document.getElementById("register-form").submit()
     }
-    event.preventDefault()
+    
 }
 
 let button = document.getElementById("registrar")

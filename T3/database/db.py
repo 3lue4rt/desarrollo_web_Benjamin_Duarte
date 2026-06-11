@@ -96,9 +96,15 @@ def register_user(nombre, tipo, email, telefono, region, comuna, password):
 def login_user(email, password):
     a_user = get_user_by_email(email)
     if a_user is None:
-        return False, "Usuario o contraseña incorrectos."
+        return False, "Correo o contraseña incorrectos."
     
     if a_user.password != password:
-        return False, "Usuario o contraseña incorrectos."
+        return False, "Correo o contraseña incorrectos."
     
     return True, ""
+
+def get_last_5_users() -> list[Usuario]:
+    session = SessionLocal()
+    user = session.query(Usuario).all()
+    session.close()
+    return user[:-6:-1] #los ultimos 5

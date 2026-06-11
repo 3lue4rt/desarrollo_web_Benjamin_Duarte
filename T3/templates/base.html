@@ -20,13 +20,8 @@
         </li>
         <li>
             <a href="{{ url_for('portada')}}">
-              Area de calidad de vida
+              Inicio
             </a>
-        </li>
-        <li>
-          <a href="{{ url_for('login')}}">
-            Registro y Log-in
-          </a>
         </li>
         <li>
           <a href="{{ url_for('miembros')}}">
@@ -38,6 +33,29 @@
             Estadísticas
           </a>
         </li>
+        {% if user %}
+        <li>
+          <a href="{{ url_for('portada')}}">
+            {{ user }}
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('logout')}}">
+            Log-out
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{{ url_for('registrar')}}">
+            Registrate!
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('login')}}">
+            Log-in
+          </a>
+        </li>
+        {% endif %}
     </ul>
     {% block content %}{% endblock %}
     {% block javascript %}{% endblock %}

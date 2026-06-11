@@ -18,11 +18,32 @@ DCC - Area de calidad de vida
 {% block content %}
 <section>
     <h1> ¿Que actividades hace el DCC? </h1>
-
-    <a href="{{ url_for('registrar')}}" class="button">Registrar  miembro  y  actividades</a>
-    <a href="{{ url_for('registrar')}}" class="button">Ver  listado  de  miembros</a>
-    <a href="{{ url_for('registrar')}}" class="button">Estadísticas (indicadores y métricas)</a>
-
-    <p>Aqui va una tabla</p>
+    {% if user %}
+    <a href="{{ url_for('portada')}}" class="button">Registrar miembro y actividades</a>
+    {% else %}
+    <a href="{{ url_for('registrar')}}" class="button">Registrar miembro y actividades</a>
+    {% endif %}
+    <a href="{{ url_for('portada')}}" class="button">Ver  listado  de  miembros</a>
+    <a href="{{ url_for('portada')}}" class="button">Estadísticas (indicadores y métricas)</a>
+</section>
+<section>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de miembro</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Fecha de registro</th>
+        </tr>
+        {%for user in users%}
+            <tr>
+                <td>{{ user.nombre|e }}</td>
+                <td>{{ user.tipo|e }}</td>
+                <td>{{ user.email|e }}</td>
+                <td>{{ user.telefono|e }}</td>
+                <td>{{ user.fecha_registro|e }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 </section>
 {% endblock content %}

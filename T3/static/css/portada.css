@@ -3,6 +3,7 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 /*
@@ -18,4 +19,10 @@ a.button {
     color: buttontext;
     background-color: buttonface;
     text-decoration: none;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
 }
