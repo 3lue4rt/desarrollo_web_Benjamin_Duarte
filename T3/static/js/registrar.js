@@ -40,6 +40,18 @@ const validateRegion = (region) => {
     return false
 }
 
+const validateComuna = (region) => (comuna) => {
+    for (let r of region_comuna["regiones"]) {
+        if (r["nombre"]==region) {
+            for (let c of r["comunas"]) {
+                if (c["nombre"]==comuna)
+                    return true
+            }
+            return false
+        }
+    }
+    return false
+}
 //str->bool
 //minimo:
 // - un numero
@@ -56,13 +68,14 @@ const validatePassword = (password) => {
 }
 
 //void->void
-//maneja la validación de inputs formulario de login
-const validateLogin = (event) => {
+//maneja la validación de inputs formulario de registrar
+const validateRegistrer = (event) => {
     let names = document.getElementById("names")
-    let surnames = document.getElementById("surnames")
     let memberTypes = document.getElementById("member-type")
-    let phone = document.getElementById("phone")
     let email = document.getElementById("email")
+    let phone = document.getElementById("phone")
+    let region = document.getElementById("region")
+    let comuna = document.getElementById("comuna")
     let password = document.getElementById("password")
     let password_confirm = document.getElementById("password-confirm")
 
@@ -79,10 +92,11 @@ const validateLogin = (event) => {
     }
 
     addToMsg(names, validateName, "El nombre debe contener al menos 1 letra")
-    addToMsg(surnames, validateSurname, "El apellido debe contener al menos 1 letra")
-    addToMsg(memberTypes, validateMemberType, "Ingrese un miembro válido")
-    addToMsg(phone, validatePhone, "Ingrese solo 8 números, sin el +56 9")
+    addToMsg(memberTypes, validateMemberType, "Seleccione un miembro válido")
     addToMsg(email, validateEmail, "email inválido")
+    addToMsg(phone, validatePhone, "Ingrese solo 8 números, sin el +56 9")
+    addToMsg(region, validateRegion, "Seleccione una región válida")
+    addToMsg(comuna, validateComuna(region.value), "Seleccione una comuna válida")
     addToMsg(password, validatePassword, "La contraseña debe contener 1 número, una mayúscula, una minúscula, un caracter especial y ser de largo 8")
     
     if (password.value != password_confirm.value) {
@@ -96,12 +110,15 @@ const validateLogin = (event) => {
         alert(msg)
     } else {
         alert("¡Cuenta creada!")
+        document.getElementById("register-form").submit()
     }
     event.preventDefault()
 }
 
 let button = document.getElementById("registrar")
-button.addEventListener("click", validateLogin)
+button.addEventListener("click", validateRegistrer
+
+)
 
 let comunas = document.getElementById("comuna")
 
@@ -131,6 +148,6 @@ for (let region of region_comuna["regiones"]) {
     regiones.appendChild(newRegion)
 }
 
-regiones.addEventListener("input", () => {
-    fillComunas(comunas.value)
+regiones.addEventListener("input", (event) => {
+    fillComunas(regiones.value)
 })

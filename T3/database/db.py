@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, Enum
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+import datetime
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -29,7 +30,8 @@ class Comuna(Base):
     nombre = Column(String(200), nullable=False)
     region_id = Column(BigInteger, ForeignKey('region.id'), nullable=False)
 
-    region = relationship("Region", back_populates="comuna")
+    region = relationship("Region", back_populates="comunas")
+    usuarios = relationship("Usuario", back_populates="comuna", cascade="all, delete")
 
 class Usuario(Base):
     __tablename__ = 'usuarios'
@@ -41,7 +43,7 @@ class Usuario(Base):
     telefono = Column(Integer, nullable=False)
     fecha_registro = Column(DateTime, nullable=False)
     comuna_id = Column(BigInteger, ForeignKey('comuna.id'), nullable=False)
-    comuna = relationship("Comuna", back_populates="usuario", cascade="all, delete")
+    comuna = relationship("Comuna", back_populates="usuarios")
     password = Column(String(255), nullable=False)
 
 # --- Database Functions ---
@@ -59,24 +61,37 @@ def get_user_by_email(email):
     return user
 
 
-def create_user(nombre, tipo, email, telefono, comuna_id, password):
+def create_user(nombre, tipo, email, telefono, region, comuna, password) -> bool:
     session = SessionLocal()
+    region_db = session.query(Region).filter_by(nombre=region).first()
+    if not region_db: 
+        session.close()
+        return False
+    comuna_db = session.query(Comuna).filter_by(nombre=comuna, region_id=region_db.id).first()
+    if not comuna_db:
+        session.close() 
+        return False
     new_user = Usuario(nombre=nombre, 
                        tipo=tipo,
                        email=email,
                        telefono=telefono,
-                       comuna_id=comuna_id,
+                       fecha_registro=datetime.date.today(),
+                       comuna_id=comuna_db.id,
                        password=password)
     session.add(new_user)
     session.commit()
     session.close()
+    return True
 
-def register_user(nombre, tipo, email, telefono, comuna_id, password):
+def register_user(nombre, tipo, email, telefono, region, comuna, password):
     if get_user_by_email(email) is not None:
         return False, "El correo ya esta en uso."
+
+    result = create_user(nombre, tipo, email, telefono, region, comuna, password)
+    if not result:
+        return False, "Error al crear el usuario"
     
-    create_user(nombre, tipo, email, telefono, comuna_id, password)
-    return True, None
+    return True, ""
 
 def login_user(email, password):
     a_user = get_user_by_email(email)
@@ -86,4 +101,4 @@ def login_user(email, password):
     if a_user.password != password:
         return False, "Usuario o contraseña incorrectos."
     
-    return True, None
+    return True, ""
