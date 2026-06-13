@@ -1,5 +1,7 @@
 import re
+import filetype
 from database import db
+from werkzeug.datastructures import FileStorage
 
 def validate_names(value:str | None) -> bool:
     return value!=None and len(value) > 0
@@ -69,3 +71,103 @@ def validate_register(names: str | None,
            validate_password(password) and \
            validate_password(password_confirm) and \
            password == password_confirm
+
+def validate_dia(dia: str | None):
+    return dia in {'Lunes','Martes','Miercoles','Jueves','Viernes','Sábado','Domingo'}
+
+def parse_schedule(schedule: dict[str, tuple[str, str]]) -> dict[str, tuple[str, str]]:
+    parsed: dict[str, tuple[str, str]] = {} # Día: (hora_inicio, duración)
+    for day in schedule:
+        init_hour, init_min = schedule[day][0].split(":")
+        final_hour, final_min = schedule[day][1].split(":")
+
+        if not (0<=int(final_hour)<24 and \
+                0<=int(init_hour)<24 and \
+                0<=int(final_min)<60 and \
+                0<=int(init_min)<60):
+            raise Exception
+
+        delta_hour = int(final_hour) - int(init_hour)
+        delta_min = int(final_min) - int(init_min)
+
+        duration = delta_hour*60-delta_min
+
+        delta_hour = duration // 60
+        delta_min = duration % 60
+
+        delta_hour = str(delta_hour)
+        delta_min = str(delta_min)
+
+        if len(delta_hour)<2:
+            delta_hour = "0" + delta_hour
+        if len(delta_min)<2:
+            delta_min = "0" + delta_min
+        parsed[day] = (schedule[day][0], delta_hour+":"+delta_min)
+
+    return parsed
+
+def validate_schedule(schedule: dict[str, tuple[str, str]]):
+    if len(schedule) == 0: return False
+    try:
+        _ = parse_schedule(schedule)
+    except:
+        return False
+    return True
+
+#    let reg = /.+\.jpg|.+\.jpeg|.+\.png|.+\.webp|.+\.gif|.+\.svg|.+\.webm|.+\.ogg|.+\.mp4|.+\.roq|.+\.wav$/
+def validate_file(act_file: FileStorage | None):
+    ALLOWED_EXTENSIONS = {"png", 
+                          "jpg", 
+                          "jpeg", 
+                          "gif", 
+                          "webp", 
+                          "svg", 
+                          "webm",
+                          "mp4",}
+    ALLOWED_MIMETYPES = {"image/jpeg", 
+                         "image/png", 
+                         "image/gif", 
+                         "image/webp", 
+                         "image/svg", 
+                         "video/webm",
+                         "video/mp4",}
+
+    # check if a file was submitted
+    if act_file is None:
+        return False
+
+    # check if the browser submitted an empty file
+    if act_file.filename == "":
+        return False
+    
+    # check file extension
+    ftype_guess = filetype.guess(act_file)
+
+    if ftype_guess is None or \
+       ftype_guess.extension not in ALLOWED_EXTENSIONS or \
+       ftype_guess.mime not in ALLOWED_MIMETYPES:
+        return False
+    
+    return True
+
+def validate_description(desc: str | None) -> bool:
+    return desc is not None and len(desc) < 500
+
+def validate_act_type(act_type: str | None) -> bool:
+    return act_type in ['Artística','Deportiva','Tecnológica','Social','Recreativa','Otra']
+
+def validate_url(url: str | None) -> bool:
+    return url is not None and len(url)>0
+
+def validate_actividad(name: str | None,
+                      description: str | None,
+                      act_type: str | None,
+                      schedule: dict[str, tuple[str, str]],
+                      file: FileStorage | None,
+                      url: str | None) -> bool:
+    return validate_names(name) and \
+           validate_description(description) and \
+           validate_act_type(act_type) and \
+           validate_schedule(schedule) and \
+           validate_file(file) and \
+           validate_url(url)

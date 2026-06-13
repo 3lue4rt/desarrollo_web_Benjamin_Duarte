@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, Enum
+from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, Enum, Date
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 import datetime
 
@@ -46,6 +46,45 @@ class Usuario(Base):
     comuna = relationship("Comuna", back_populates="usuarios")
     password = Column(String(255), nullable=False)
 
+    actividades = relationship("Actividad", back_populates="usuario", cascade="all, delete")
+
+class Actividad(Base):
+    __tablename__ = "actividad"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    usuario = relationship("Usuario", back_populates="actividades")
+    miembro_id = Column(BigInteger, ForeignKey("usuarios.id"), nullable=False)
+    dia = Column(Enum("Lunes",
+                      "Martes", 
+                      "Miercoles", 
+                      "Jueves",
+                      "Viernes",
+                      "Sábado",
+                      "Domingo"), nullable=False)
+    hora_inicio = Column(String(5), nullable=False)
+    duracion = Column(String(5), nullable=False)
+    tipo = Column(Enum("Artística",
+                       "Deportiva",
+                       "Tecnológica",
+                       "Social",
+                       "Recreativa",
+                       "Otra"), nullable=False)
+    nombre = Column(String(45), nullable=False)
+    descripcion = Column(String(500), nullable=False)
+    url = Column(String(200), nullable=False)
+    foto = relationship("Foto", back_populates="actividad", cascade="all, delete")
+    
+
+class Foto(Base):
+    __tablename__ = "foto"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    ruta_archivo = Column(String(300), nullable=False)
+    nombre_archivo = Column(String(300), nullable=False)
+    actividad_id = Column(BigInteger, ForeignKey("actividad.id"), nullable=False)
+
+    actividad = relationship("Actividad", back_populates="foto")
+
 # --- Database Functions ---
 
 def get_user_by_id(id):
@@ -75,7 +114,7 @@ def create_user(nombre, tipo, email, telefono, region, comuna, password) -> bool
                        tipo=tipo,
                        email=email,
                        telefono=telefono,
-                       fecha_registro=datetime.date.today(),
+                       fecha_registro=datetime.datetime.today(),
                        comuna_id=comuna_db.id,
                        password=password)
     session.add(new_user)
@@ -105,6 +144,7 @@ def login_user(email, password):
 
 def get_last_5_users() -> list[Usuario]:
     session = SessionLocal()
-    user = session.query(Usuario).all()
+    #      SELECT * FROM Usuario ORDER BY Usuario.fecha_registro DESC LIMIT 5;
+    user = session.query(Usuario).order_by(Usuario.id.desc()).limit(5).all()
     session.close()
-    return user[:-6:-1] #los ultimos 5
+    return user

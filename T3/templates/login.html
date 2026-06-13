@@ -17,6 +17,7 @@ Log-in
 
 {% block content %}
 <section>
+    <h1>Log-in</h1>
     <form id="log-in-form" method="post">
         {% if error %}
         <p>
@@ -31,7 +32,7 @@ Log-in
         <br>
         <input id="password" name="password" type="password" required>
         <br>
-        <button type="submit" id="registrar">Registrar</button>
+        <button type="submit" id="registrar">Log in</button>
     </form>
     <p>¿No tienes una cuenta? Registrate <a href="{{ url_for('registrar')}}">aquí</a></p>
 </section>

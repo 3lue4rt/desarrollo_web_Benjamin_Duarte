@@ -18,15 +18,12 @@ DCC - Area de calidad de vida
 {% block content %}
 <section>
     <h1> ¿Que actividades hace el DCC? </h1>
-    {% if user %}
-    <a href="{{ url_for('portada')}}" class="button">Registrar miembro y actividades</a>
-    {% else %}
-    <a href="{{ url_for('registrar')}}" class="button">Registrar miembro y actividades</a>
-    {% endif %}
+    <a href="{{ url_for('actividades')}}" class="button">Registrar miembro y actividades</a>
     <a href="{{ url_for('portada')}}" class="button">Ver  listado  de  miembros</a>
     <a href="{{ url_for('portada')}}" class="button">Estadísticas (indicadores y métricas)</a>
 </section>
 <section>
+    <h2> Nuestros miembros más recientes </h2>
     <table>
         <tr>
             <th>Nombre</th>
@@ -40,7 +37,7 @@ DCC - Area de calidad de vida
                 <td>{{ user.nombre|e }}</td>
                 <td>{{ user.tipo|e }}</td>
                 <td>{{ user.email|e }}</td>
-                <td>{{ user.telefono|e }}</td>
+                <td>+56 9 {{ user.telefono|e }}</td>
                 <td>{{ user.fecha_registro|e }}</td>
             </tr>
         {% endfor %}

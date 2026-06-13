@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Registra tu actividad{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/registrar.css') }}"
+/>
+
+{% endblock %}
+
+{% block content %}
+<section>
+<h1>Actividades</h1>
+
+    <h2>Registra tu Actividad</h2>
+    <form id="activity-form" action="{{url_for('post_actividad')}}" method="post" enctype="multipart/form-data">
+        <label for="name">Nombre: <br>(ingrese entre 1 y 45 carácteres)</label>
+        <br>
+        <input id="name" name="name" type="text" minlength="1" maxlength="45">
+        <br>
+        <label for="description">Descripción: <br>(ingrese hasta 500 carácteres)</label>
+        <br>
+        <textarea id="description" name="description" maxlength="500">Mi actividad ... </textarea>
+        <br>
+        <label for="activity-type">Tipo de actividad:</label>
+        <br>
+        <select id="activity-type" name="activity-type">
+            <option value=""> --Elíge-- </option>
+            <option value="Artística">Artística</option>
+            <option value="Deportiva">Deportiva</option>
+            <option value="Tecnológica">Tecnológica</option>
+            <option value="Social">Social</option>
+            <option value="Recreativa">Recreativa</option>
+            <option value="Otra">Otra</option>
+        </select>
+        <br>
+        <label>
+            Día(s): 
+        </label>
+        <div class="warning" id="warning">Elija al menos 1 día</div>
+        <br>
+        <input type="checkbox" id="Lunes" name="Lunes" value=" ">
+        <input type="checkbox" id="Martes" name="Martes" value=" ">
+        <input type="checkbox" id="Miercoles" name="Miercoles" value=" ">
+        <input type="checkbox" id="Jueves" name="Jueves" value=" ">
+        <input type="checkbox" id="Viernes" name="Viernes" value=" ">
+        <input type="checkbox" id="Sábado" name="Sábado" value=" ">
+        <input type="checkbox" id="Domingo" name="Domingo" value=" ">
+        <br>
+        <label id="schedule">Horario:</label>
+        <br>
+        <div id="Lunes-horario" class="horario">
+            Lunes:
+            <br>
+            Inicio:
+            <input type="time" id="Lunes-inicio" name="Lunes-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Lunes-fin" name="Lunes-fin">
+        </div>
+        <div id="Martes-horario" class="horario">
+            Martes:
+            <br>
+            Inicio:
+            <input type="time" id="Martes-inicio" name="Martes-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Martes-fin" name="Martes-fin">
+        </div>
+        <div id="Miercoles-horario" class="horario">
+            Miercoles:
+            <br>
+            Inicio:
+            <input type="time" id="Miercoles-inicio" name="Miercoles-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Miercoles-fin" name="Miercoles-fin">
+        </div>
+        <div id="Jueves-horario" class="horario">
+            Jueves:
+            <br>
+            Inicio:
+            <input type="time" id="Jueves-inicio" name="Jueves-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Jueves-fin" name="Jueves-fin">
+        </div>
+        <div id="Viernes-horario" class="horario">
+            Viernes:
+            <br>
+            Inicio:
+            <input type="time" id="Viernes-inicio" name="Viernes-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Viernes-fin" name="Viernes-fin">
+        </div>
+        <div id="Sábado-horario" class="horario">
+            Sábado:
+            <br>
+            Inicio:
+            <input type="time" id="Sábado-inicio" name="Sábado-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Sábado-fin" name="Sábado-fin">
+        </div>
+        <div id="Domingo-horario" class="horario">
+            Domingo:
+            <br>
+            Inicio:
+            <input type="time" id="Domingo-inicio" name="Domingo-inicio">
+            <br>
+            Fin:
+            <input type="time" id="Domingo-fin" name="Domingo-fin">
+        </div>
+        <label for="file">Foto o video:</label>
+        <br>
+        <input id="file" name="file" type="file">
+        <br>
+        <label for="url">Enlace al contenido: <br> (ingrese entre 1 y 200 carácteres)</label>
+        <br>
+        <input id="url" name="url" type="url">
+        <br>
+        <button type="button" id="registrar">Registrar</button>
+    </form>
+</section>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/activities.js')}}"></script>
+{% endblock %}
